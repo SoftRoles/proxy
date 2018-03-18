@@ -14,7 +14,7 @@ const app = express();
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cors())
-app.use(express.static(__dirname + "/www"))
+app.use(express.static(__dirname + "/test"))
 app.listen(3001, function () {
     notifier.notify({
         title: 'Service: 3001-dirtree',
@@ -24,7 +24,11 @@ app.listen(3001, function () {
 })
 
 app.get("/", function (req, res) {
-    res.sendFile("test/bower.json", { root : __dirname})
+    res.sendFile("test/index.html", { root : __dirname})
+})
+
+app.post("/", function(req, res){
+    res.send(dirTree(req.body.path))
 })
 
 console.log(dirTree('c:\\Users\\Ev\\Desktop'))

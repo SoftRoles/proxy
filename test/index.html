@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+
+  <link rel="stylesheet" href="bower_components/webix/codebase/webix.css" type="text/css" charset="utf-8">
+  <script src="bower_components/webix/codebase/webix.js" type="text/javascript" charset="utf-8"></script>
+</head>
+
+<body>
+  <script>
+    webix.ui({
+      rows: [
+        {
+          view: "form", elements: [
+            { id: "pathInput", view: "text", label: "Path", name: "path", placeholder: "Enter full path to expand here.." },
+          ]
+        },
+        {
+          view: "treetable",
+          columns: [
+            { id: "id", header: "", width: 50 },
+            {
+              id: "value", header: "Film title", width: 250,
+              template: "{common.treetable()} #value#"
+            },
+            { id: "chapter", header: "Mode", width: 200 }
+          ],
+          data: [
+            {
+              "id": "1", "value": "The Shawshank Redemption", "open": true, "data": [
+                { "id": "1.1", "value": "Part 1", "chapter": "alpha" },
+                {
+                  "id": "1.2", "value": "Part 2", "chapter": "beta", "open": true, "data": [
+                    { "id": "1.2.1", "value": "Part 1", "chapter": "beta-twin" }
+                  ]
+                }
+              ]
+            }
+          ]
+          // datatype: "myjson"
+        }
+      ]
+
+    }); 
+  </script>
+
+</body>
+
+</html>
