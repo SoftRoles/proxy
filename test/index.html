@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
+  <title>3001-dirtree</title>
 
   <link rel="stylesheet" href="bower_components/webix/codebase/webix.css" type="text/css" charset="utf-8">
   <script src="bower_components/webix/codebase/webix.js" type="text/javascript" charset="utf-8"></script>
@@ -13,40 +13,49 @@
 
 <body>
   <script>
+   webix.ready(function(){
+   
+   var myjson = webix.DataDriver.myjson = webix.copy(webix.DataDriver.json);
+            myjson.child=function(obj){
+				
+                return obj.children;
+            };
+
+  
     webix.ui({
       rows: [
         {
           view: "form", elements: [
-            { id: "pathInput", view: "text", label: "Path", name: "path", placeholder: "Enter full path to expand here.." },
+            { id: "pathInput", view: "text", label: "Path", name: "path", placeholder: "Enter full path to expand here..", on:{
+				"onChange": function(newv, oldv){
+					webix.ajax().headers("application/json").post("/", {path:newv}, function(t, d, x){
+						console.log(d.json())
+						$$("directoryTree").clearAll()
+						$$("directoryTree").load("/forwebixtreetable?path="+newv);
+						setTimeout(function(){$$("directoryTree").openAll()},2000)
+						
+					})
+				}
+			} },
           ]
         },
         {
+		  id: "directoryTree",
           view: "treetable",
+
           columns: [
-            { id: "id", header: "", width: 50 },
-            {
-              id: "value", header: "Film title", width: 250,
-              template: "{common.treetable()} #value#"
-            },
-            { id: "chapter", header: "Mode", width: 200 }
+            { id: "name", header: "Path", fillspace:1, template: "{common.treetable()} #name#"}, 
           ],
-          data: [
-            {
-              "id": "1", "value": "The Shawshank Redemption", "open": true, "data": [
-                { "id": "1.1", "value": "Part 1", "chapter": "alpha" },
-                {
-                  "id": "1.2", "value": "Part 2", "chapter": "beta", "open": true, "data": [
-                    { "id": "1.2.1", "value": "Part 1", "chapter": "beta-twin" }
-                  ]
-                }
-              ]
-            }
-          ]
-          // datatype: "myjson"
+		  data:[{name:"Path", open:true, children:[{name:"Sub-Path"}]}],
+          datatype: "myjson",
+		  select: true,
         }
       ]
 
     }); 
+   
+   })
+  
   </script>
 
 </body>

@@ -28,7 +28,12 @@ app.get("/", function (req, res) {
 })
 
 app.post("/", function(req, res){
+	console.log(req.body.path)
     res.send(dirTree(req.body.path))
+})
+
+app.get("/forwebixtreetable", function (req, res) {
+	res.send(dirTree(req.query.path))
 })
 
 console.log(dirTree('c:\\Users\\Ev\\Desktop'))
