@@ -26,18 +26,19 @@
       webix.ui({
         rows: [
           {
+            id: "serviceTable",
             view: "datatable",
             columns: [
-              { id: "value", header: "Service", fillspace: 1 },
-              { id: "run", header: "Running", template: "{common.checkbox()}", width: 100 }
+              { id: "name", header: "Service", fillspace: 1 },
+              { id: "stat", header: "Status", template: "{common.checkbox()}", width: 100 }
             ],
             url: "/proxy/list", select: true, on: {
               onCheck: function (rowId, colId, state) {
-                if(state===1){
-                  webix.ajax().get("/proxy/app/3001-dirtree", function(t,d,x){console.log(d.json())})
+                if (state === 1) {
+                  webix.ajax().get("/proxy/service/"+this.getItem(rowId).name, function (t, d, x) { console.log(d.json()) })
                 }
-                else{
-                  webix.ajax().del("/proxy/app/3001-dirtree", function(t,d,x){console.log(d.json())})
+                else {
+                  webix.ajax().del("/proxy/service/"+this.getItem(rowId).name, function (t, d, x) { console.log(d.json()) })
                 }
               }
             }

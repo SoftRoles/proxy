@@ -20,46 +20,55 @@ app.listen(3000, function () {
   });
 })
 
+services = []
+startup_services = ["3001-dirtree", "5000-tinydb"]
+childs = []
+fs.readdir("..", function (err, files) {
+  if (!err) {
+    files.filter(file => {
+      if (fs.statSync("../" + file).isDirectory() && file !== "3000-proxy") {
+        if (startup_services.indexOf(file) > -1) {
+          // var child = (file[0] == "3") ? spawn("node", ["../" + file + "/app.js"], { cwd: "../" + file }) : spawn("python", ["../" + file + "/app.py"], { cwd: "../" + file })
+          var child = (file[0] == "3") ? spawn("nodemon.cmd", ["../" + file + "/app.js", "--watch", "../" + file + "/app.js"], { cwd: "../" + file })
+            : spawn("nodemon.cmd", ["../" + file + "/app.py", "--watch", "../" + file + "/app.py"], { cwd: "../" + file })
+          child.on('exit', function (code, signal) { console.log("[" + file + `]: Exited with code ${code} and signal ${signal}`) });
+          child.stdout.on('data', (data) => { console.log("[" + file + `]: ${data}`) });
+          child.stderr.on('data', (data) => { console.log("[" + file + `]: ${data}`) });
+          services.push({ name: file, stat: 1 })
+          childs.push({ name: file, proc: child })
+        }
+      }
+    })
+  }
+})
+
 app.get("/proxy/list", function (req, res) {
-  fs.readdir("..", function (err, files) {
-    if (!err) {
-      res.send(files.filter(file => {
-        return fs.statSync("../" + file).isDirectory() && file !== "3000-proxy"
-      }));
-    }
-    else res.send(err)
-  })
+  res.send(services)
 })
 
-apps = []
-app.get("/proxy/app/:app", function (req, res) {
-  var child = { name: req.params.app }
-  child.proc = spawn("node", ["../" + req.params.app + "/app.js"])
-  child.proc.on('exit', function (code, signal) {
-    console.log(child.name + ' exited with ' + `code ${code} and signal ${signal}`);
-  });
-  child.proc.stdout.on('data', (data) => {
-    console.log(`child stdout:\n${data}`);
-  });
-  child.proc.stderr.on('data', (data) => {
-    console.error(`child stderr:\n${data}`);
-  });
-  apps.push(child)
-  console.log(req.params.app)
+app.get("/proxy/service/:service", function (req, res) {
+  var new_child = (req.params.service[0] == "3") ? spawn("nodemon.cmd", ["../" + req.params.service + "/app.js", "--watch", "../" + req.params.service  + "/app.js"], { cwd: "../" + req.params.service })
+    : spawn("nodemon.cmd", ["../" + req.params.service + "/app.py", "--watch", "../" + req.params.service  + "/app.js"], { cwd: "../" + req.params.service })
+  new_child.on('exit', function (code, signal) { console.log("[" + req.params.service + `]: Exited with code ${code} and signal ${signal}`) });
+  new_child.stdout.on('data', (data) => { console.log("[" + req.params.service + `]: ${data}`) });
+  new_child.stderr.on('data', (data) => { console.log("[" + req.params.service + `]: ${data}`) });
+  var child = childs.filter(function (child) { return child.name == req.params.service })[0]
+  var service = services.filter(function (service) { return service.name == req.params.service })[0]
+  if (child) { child = new_child; service.stat = 1; }
+  else { services.push({ name: req.params.service, stat: 1 }); childs.push({ name: req.params.service, proc: child }) }
 })
 
-app.delete("/proxy/app/:app", function (req, res) {
-  var child = apps.filter(function (child) { return child.name == req.params.app })[0]
+app.delete("/proxy/service/:service", function (req, res) {
+  var child = childs.filter(function (child) { return child.name == req.params.service })[0]
+  var service = services.filter(function (service) { return service.name == req.params.service })[0]
   exec('taskkill /PID ' + child.proc.pid + ' /T /F', function (error, stdout, stderr) {
-    console.log('stdout: ' + stdout);
-    console.log('stderr: ' + stderr);
-    if (error !== null) {
-      console.log('exec error: ' + error);
-      res.send({error: error})
+    if (error) {
+      res.send({ error: error })
     }
     else {
-      apps = apps.filter(function (app) { return app.name !== req.params.app })
-      res.send("OK")
+      child = null
+      service.stat = 0
+      res.send("K")
     }
   });
 })
