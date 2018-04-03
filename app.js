@@ -21,14 +21,13 @@ app.listen(3000, function () {
 })
 
 services = []
-startup_services = ["3001-dirtree", "5000-tinydb"]
+ps_services = []  // platform dependent services
 childs = []
 fs.readdir("..", function (err, files) {
   if (!err) {
     files.filter(file => {
       if (fs.statSync("../" + file).isDirectory() && file !== "3000-proxy") {
-        if (startup_services.indexOf(file) > -1) {
-          // var child = (file[0] == "3") ? spawn("node", ["../" + file + "/app.js"], { cwd: "../" + file }) : spawn("python", ["../" + file + "/app.py"], { cwd: "../" + file })
+        if (ps_services.indexOf(file) == -1) {
           var child = (file[0] == "3") ? spawn("nodemon.cmd", ["../" + file + "/app.js", "--watch", "../" + file + "/app.js"], { cwd: "../" + file })
             : spawn("nodemon.cmd", ["../" + file + "/app.py", "--watch", "../" + file + "/app.py"], { cwd: "../" + file })
           child.on('exit', function (code, signal) { console.log("[" + file + `]: Exited with code ${code} and signal ${signal}`) });
