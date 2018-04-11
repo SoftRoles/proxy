@@ -28,8 +28,10 @@ fs.readdir("..", function (err, files) {
     files.filter(file => {
       if (fs.statSync("../" + file).isDirectory() && file !== "3000-proxy") {
         if (ps_services.indexOf(file) == -1) {
-          var child = (file[0] == "3") ? spawn("nodemon.cmd", ["../" + file + "/app.js", "--watch", "../" + file + "/app.js"], { cwd: "../" + file })
-            : spawn("nodemon.cmd", ["../" + file + "/app.py", "--watch", "../" + file + "/app.py"], { cwd: "../" + file })
+          // var child = (file[0] == "3") ? spawn("nodemon.cmd", ["../" + file + "/app.js", "--watch", "../" + file + "/app.js"], { cwd: "../" + file })
+          //   : spawn("nodemon.cmd", ["../" + file + "/app.py", "--watch", "../" + file + "/app.py"], { cwd: "../" + file })
+          var child = (file[0] == "3") ? spawn("node", ["../" + file + "/app.js"], { cwd: "../" + file })
+            : spawn("python", ["../" + file + "/app.py"], { cwd: "../" + file })
           child.on('exit', function (code, signal) { console.log("[" + file + `]: Exited with code ${code} and signal ${signal}`) });
           child.stdout.on('data', (data) => { console.log("[" + file + `]: ${data}`) });
           child.stderr.on('data', (data) => { console.log("[" + file + `]: ${data}`) });
@@ -46,8 +48,8 @@ app.get("/proxy/list", function (req, res) {
 })
 
 app.get("/proxy/service/:service", function (req, res) {
-  var new_child = (req.params.service[0] == "3") ? spawn("nodemon.cmd", ["../" + req.params.service + "/app.js", "--watch", "../" + req.params.service  + "/app.js"], { cwd: "../" + req.params.service })
-    : spawn("nodemon.cmd", ["../" + req.params.service + "/app.py", "--watch", "../" + req.params.service  + "/app.js"], { cwd: "../" + req.params.service })
+  var new_child = (req.params.service[0] == "3") ? spawn("nodemon.cmd", ["../" + req.params.service + "/app.js", "--watch", "../" + req.params.service + "/app.js"], { cwd: "../" + req.params.service })
+    : spawn("nodemon.cmd", ["../" + req.params.service + "/app.py", "--watch", "../" + req.params.service + "/app.js"], { cwd: "../" + req.params.service })
   new_child.on('exit', function (code, signal) { console.log("[" + req.params.service + `]: Exited with code ${code} and signal ${signal}`) });
   new_child.stdout.on('data', (data) => { console.log("[" + req.params.service + `]: ${data}`) });
   new_child.stderr.on('data', (data) => { console.log("[" + req.params.service + `]: ${data}`) });
