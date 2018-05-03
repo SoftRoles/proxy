@@ -48,8 +48,8 @@ app.get("/proxy/list", function (req, res) {
 })
 
 app.get("/proxy/service/:service", function (req, res) {
-  var new_child = (req.params.service[0] == "3") ? spawn("nodemon.cmd", ["../" + req.params.service + "/app.js", "--watch", "../" + req.params.service + "/app.js"], { cwd: "../" + req.params.service })
-    : spawn("nodemon.cmd", ["../" + req.params.service + "/app.py", "--watch", "../" + req.params.service + "/app.js"], { cwd: "../" + req.params.service })
+  var new_child = (req.params.service[0] == "3") ? spawn("node", ["../" + req.params.service + "/app.js"], { cwd: "../" + req.params.service })
+    : spawn("python", ["../" + req.params.service + "/app.py"], { cwd: "../" + req.params.service })
   new_child.on('exit', function (code, signal) { console.log("[" + req.params.service + `]: Exited with code ${code} and signal ${signal}`) });
   new_child.stdout.on('data', (data) => { console.log("[" + req.params.service + `]: ${data}`) });
   new_child.stderr.on('data', (data) => { console.log("[" + req.params.service + `]: ${data}`) });
