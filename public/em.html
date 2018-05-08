@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>5001-em</title>
+
+  <link rel="stylesheet" href="bower_components/webix/codebase/skins/compact.css" type="text/css">
+  <script src="bower_components/webix/codebase/webix.js"></script>
+
+  <link rel="stylesheet" href="bower_components/katex/dist/katex.min.css" type="text/css">
+  <script src="bower_components/katex/dist/katex.min.js"></script>
+
+  <style>
+    .webix_tree_file,
+    .webix_tree_folder,
+    .webix_tree_folder_open {
+      background-position: 0 top;
+    }
+
+    /* .katex { font-size: 0.9em; } */
+  </style>
+</head>
+
+<body>
+  <script>
+    webix.ready(function () {
+      var myjson = webix.DataDriver.myjson = webix.copy(webix.DataDriver.json);
+      myjson.child = function (obj) {
+        if (obj.$level == 2 && obj.versions) {
+          return obj.versions
+        }
+        if (obj.$level == 3) {
+          return obj.args
+        }
+        else return obj.items
+      };
+
+      latexTemplate = function (obj) {
+        if (obj.$level > 1) {
+          return katex.renderToString(obj.symbol)
+        }
+        else return ""
+      };
+
+      valueTemplate = function (obj) {
+        if (obj.value) {
+          if(obj.cast === "float") return parseFloat(obj.value).toExponential(6)
+          else return obj.value
+          // console.log(obj.value)
+          // return obj.value
+        }
+        return ""
+      }
+
+
+      webix.ui({
+        rows: [
+          {
+            id: "moduleTree",
+            view: "treetable",
+            columns: [
+              { id: "name", header: "Name", fillspace: 1, template: "{common.treetable()} #no#. #name#" },
+              { id: "symbol", header: "Formula/Symbol", fillspace: 1, template: latexTemplate },
+              // { id: "value", header: "Value", width:200, editor: "text", template: valueTemplate },
+              { id: "value", header: "Value", width: 200, editor: "text" },
+              { id: "unit", header: "Unit", width: 50 }
+            ],
+            url: "/em",
+            datatype: "myjson",
+            select: true,
+            fixedRowHeight: false,
+            rowLineHeight: 23,
+            ready: function () {
+              this.adjustRowHeight("symbol");
+            },
+            editable: true,
+            on: {
+              "onAfterEditStop": function (state, editor) {
+                if (state.value != state.old) {
+                  var obj = this.getSelectedItem()
+                  if (obj.$level === 4) {
+                    var parent = $$("moduleTree").getItem(obj.$parent)
+                    var pparent = $$("moduleTree").getItem(parent.$parent)
+                    var ppparent = $$("moduleTree").getItem(pparent.$parent)
+                    var url = "/em/" + ppparent._id + "/" + pparent._id + "/" + parent.no + "?"
+                    for (var i = 0; i < parent.args.length; i++) {
+                      if (obj._id === parent.args[i]["_id"]) url += parent.args[i]["_id"] + "=" + obj.value + "&"
+                      else url += parent.args[i]["_id"] + "=" + parent.args[i].value + "&"
+                    }
+                    console.log(url)
+                    webix.ajax().get(url, function (t, d, x) {
+                      parent.value = d.json()
+                      $$("moduleTree").refresh();
+                    })
+                  }
+                  else {
+                    obj.value = ""
+                    $$("moduleTree").refresh();
+                  }
+                }
+              },
+            }
+          }
+        ]
+      });
+      setTimeout(function () { $$("moduleTree").serialize().forEach(function (item) { $$("moduleTree").open(item.id) }) }, 2000)
+    })
+  </script>
+</body>
+
+</html>
