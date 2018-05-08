@@ -16,7 +16,9 @@
   "directories": {
     "test": "test"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "http-proxy-middleware": "^0.18.0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/yigithsyn/3000-proxy.git"
