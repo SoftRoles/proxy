@@ -18,7 +18,7 @@ app.use('/socket.io', proxy({ target: 'ws://localhost:443', changeOrigin: true, 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cors())
-app.use(express.static(__dirname + "/public"))
+app.use(express.static(__dirname + "/test"))
 app.listen(80, function () {
   console.log("Service running on http://127.0.0.1:3000")
 })
