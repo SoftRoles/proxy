@@ -15,7 +15,7 @@ app.use('/favorites', proxy({ target: 'http://localhost:8000', changeOrigin: tru
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cors())
-// app.use(express.static(__dirname + "/test"))
+app.use(express.static(__dirname + "/public"))
 app.listen(80, function () {
   console.log("Service running on http://127.0.0.1:80")
 })
