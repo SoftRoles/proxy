@@ -17,9 +17,9 @@ const app = express();
 // app.use('/dirtree', proxy({ target: 'http://localhost:3001', pathRewrite: {'^/dirtree' : ''}, changeOrigin: true }));
 app.use('/dirtree', proxy({ target: 'http://localhost:3001', changeOrigin: true }));
 app.use('/mongodb', proxy({ target: 'http://localhost:3005', changeOrigin: true }));
-app.use('/webssh', proxy({ target: 'http://localhost:443', pathRewrite: {'^/webssh' : '/ssh/host/127.0.0.1'}, changeOrigin: true }));
-app.use('/socket.io', proxy({ target: 'http://localhost:443', changeOrigin: true }));
-app.use('/socket.io', proxy({ target: 'ws://localhost:443', changeOrigin: true, ws:true }));
+app.use('/webssh', proxy({ target: 'http://localhost:3004', pathRewrite: {'^/webssh' : '/ssh/host/127.0.0.1'}, changeOrigin: true }));
+app.use('/socket.io', proxy({ target: 'http://localhost:3004', changeOrigin: true }));
+app.use('/socket.io', proxy({ target: 'ws://localhost:3004', changeOrigin: true, ws:true }));
 app.use('/favorites', proxy({ target: 'http://localhost:8000', changeOrigin: true }));
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
