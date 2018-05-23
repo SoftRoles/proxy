@@ -15,7 +15,7 @@ var proxy = require('http-proxy-middleware');
 const app = express();
 // app.use('/em', proxy({ target: 'http://localhost:5001', changeOrigin: true }));
 // app.use('/dirtree', proxy({ target: 'http://localhost:3001', pathRewrite: {'^/dirtree' : ''}, changeOrigin: true }));
-app.use('/dirtree', proxy({ target: 'http://localhost:3001', changeOrigin: true }));
+app.use('/filesystem', proxy({ target: 'http://localhost:3001', changeOrigin: true }));
 app.use('/mongodb', proxy({ target: 'http://localhost:3005', changeOrigin: true }));
 app.use('/webssh', proxy({ target: 'http://localhost:3004', pathRewrite: {'^/webssh' : '/ssh/host/127.0.0.1'}, changeOrigin: true }));
 app.use('/socket.io', proxy({ target: 'http://localhost:3004', changeOrigin: true }));
