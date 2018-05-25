@@ -33,6 +33,6 @@ app.use(express.static(__dirname + "/public"))
 // httpServer.listen(80);
 // httpsServer.listen(443);
 
-app.listen(80, function () {
-  console.log("Service running on http://127.0.0.1:80")
+app.listen(3000, function () {
+  console.log("Service running on http://127.0.0.1:3000")
 })
