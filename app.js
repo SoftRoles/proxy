@@ -7,13 +7,13 @@ var fs = require('fs');
 var proxy = require('http-proxy-middleware');
 
 const app = express();
-app.use('/filesystem', proxy({ target: 'http://localhost:3001', changeOrigin: true }));
-app.use('/mongodb', proxy({ target: 'http://localhost:3005', changeOrigin: true }));
-app.use('/webssh', proxy({ target: 'http://localhost:3004', pathRewrite: {'^/webssh' : '/ssh/host/127.0.0.1'}, changeOrigin: true }));
-app.use('/socket.io', proxy({ target: 'http://localhost:3004', changeOrigin: true }));
-app.use('/socket.io', proxy({ target: 'ws://localhost:3004', changeOrigin: true, ws:true }));
-app.use('/favorites', proxy({ target: 'http://localhost:8000', changeOrigin: true }));
-app.use('/ide', proxy({ target: 'http://localhost:8001', changeOrigin: true }));
+app.use('/filesystem', proxy({ target: 'http://127.0.0.1:3001', changeOrigin: true }));
+app.use('/mongodb', proxy({ target: 'http://127.0.0.1:3005', changeOrigin: true }));
+app.use('/webssh', proxy({ target: 'http://127.0.0.1:3004', pathRewrite: {'^/webssh' : '/ssh/host/127.0.0.1'}, changeOrigin: true }));
+app.use('/socket.io', proxy({ target: 'http://127.0.0.1:3004', changeOrigin: true }));
+app.use('/socket.io', proxy({ target: 'ws://127.0.0.1:3004', changeOrigin: true, ws:true }));
+app.use('/favorites', proxy({ target: 'http://127.0.0.1:8000', changeOrigin: true }));
+app.use('/ide', proxy({ target: 'http://127.0.0.1:8001', changeOrigin: true }));
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cors())
