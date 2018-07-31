@@ -8,6 +8,7 @@ var proxy = require('http-proxy-middleware');
 
 const app = express();
 app.use('/filesystem', proxy({ target: 'http://127.0.0.1:3001', changeOrigin: true }));
+app.use('/webscrap', proxy({ target: 'http://127.0.0.1:3003', changeOrigin: true }));
 app.use('/mongodb', proxy({ target: 'http://127.0.0.1:3005', changeOrigin: true }));
 app.use('/login', proxy({ target: 'http://127.0.0.1:3007', changeOrigin: true }));
 app.use('/logout', proxy({ target: 'http://127.0.0.1:3007', changeOrigin: true }));
