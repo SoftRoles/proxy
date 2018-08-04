@@ -14,9 +14,9 @@ app.use('/login', proxy({ target: 'http://127.0.0.1:3007', changeOrigin: true })
 app.use('/logout', proxy({ target: 'http://127.0.0.1:3007', changeOrigin: true }));
 app.use('/user', proxy({ target: 'http://127.0.0.1:3007', changeOrigin: true }));
 app.use('/webssh', proxy({ target: 'http://127.0.0.1:3004', pathRewrite: {'^/webssh' : '/ssh/host/127.0.0.1'}, changeOrigin: true }));
-app.use('/favorites', proxy({ target: 'http://127.0.0.1:8000', changeOrigin: true }));
+// app.use('/favorites', proxy({ target: 'http://127.0.0.1:8000', changeOrigin: true }));
 app.use('/ide', proxy({ target: 'http://127.0.0.1:8001', changeOrigin: true }));
-app.use('/', proxy({ target: 'http://127.0.0.1:9000', changeOrigin: true }));
+// app.use('/', proxy({ target: 'http://127.0.0.1:9000', changeOrigin: true }));
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cors())
