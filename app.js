@@ -22,6 +22,6 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cors())
 
-app.listen(3000, function () {
-  console.log("Service running on http://127.0.0.1:3000")
+app.listen(80, function () {
+  console.log("Service running on http://127.0.0.1:80")
 })
