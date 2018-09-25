@@ -1,4 +1,6 @@
+package-lock.json
 sslcert/
+node_modules
 
 # Logs
 logs
