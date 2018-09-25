@@ -1,0 +1,30 @@
+{
+  "name": "3000-proxy",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "cors": "^2.8.4",
+    "express": "^4.16.3"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "devDependencies": {
+    "http-proxy-middleware": "^0.18.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yigithsyn/3000-proxy.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yigithsyn/3000-proxy/issues"
+  },
+  "homepage": "https://github.com/yigithsyn/3000-proxy#readme",
+  "description": ""
+}
