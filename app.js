@@ -27,6 +27,9 @@ if(process.platform == "win32"){
 else{
 	app.use("/", express.static(path.join(os.homedir(), "/Sayfalar/9000-antenio")))
 }
+
+app.use("/", express.static(path.join(__dirname, "node_modules")))
+
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cors())
