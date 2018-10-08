@@ -15,7 +15,8 @@
     "jquery": "^3.3.1",
     "katex": "^0.10.0-rc.1",
     "math.js": "^1.1.43",
-    "popper.js": "^1.14.4"
+    "popper.js": "^1.14.4",
+    "webix": "^5.4.0"
   },
   "directories": {
     "test": "test"
