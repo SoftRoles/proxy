@@ -18,16 +18,14 @@ app.use('/user', proxy({ target: 'http://127.0.0.1:3007', changeOrigin: true }))
 app.use('/user', proxy({ target: 'http://127.0.0.1:3007', changeOrigin: true }));
 app.use('/serialport', proxy({ target: 'http://127.0.0.1:3008', changeOrigin: true }));
 if(process.platform == "win32"){
-	app.use("/favorites", express.static(path.join(os.homedir(), "desktop/Uygulamalar/8000-favorites")))
-}
-else{
-	app.use("/favorites", express.static(path.join(os.homedir(), "/Uygulamalar/8000-favorites")))
-}
-if(process.platform == "win32"){
 	app.use("/", express.static(path.join(os.homedir(), "desktop/Sayfalar/9000-antenio")))
+	app.use("/favorites", express.static(path.join(os.homedir(), "desktop/Uygulamalar/8000-favorites")))
+	app.use("/serialport", express.static(path.join(os.homedir(), "desktop/Uygulamalar/serialport")))
 }
 else{
 	app.use("/", express.static(path.join(os.homedir(), "/Sayfalar/9000-antenio")))
+	app.use("/favorites", express.static(path.join(os.homedir(), "/Uygulamalar/8000-favorites")))
+	app.use("/serialport", express.static(path.join(os.homedir(), "/Uygulamalar/serialport")))
 }
 
 app.use("/", express.static(path.join(__dirname, "node_modules")))
