@@ -20,10 +20,12 @@ app.use('/serialport', proxy({ target: 'http://127.0.0.1:3008', changeOrigin: tr
 if(process.platform == "win32"){
 	app.use("/", express.static(path.join(os.homedir(), "desktop/Sayfalar/9000-antenio")))
 	app.use("/favorites", express.static(path.join(os.homedir(), "desktop/Uygulamalar/8000-favorites")))
+	app.use("/serial", express.static(path.join(os.homedir(), "desktop/Uygulamalar/8002-serial")))
 }
 else{
 	app.use("/", express.static(path.join(os.homedir(), "/Sayfalar/9000-antenio")))
 	app.use("/favorites", express.static(path.join(os.homedir(), "/Uygulamalar/8000-favorites")))
+	app.use("/serial", express.static(path.join(os.homedir(), "/Uygulamalar/8002-serial")))
 }
 
 app.use("/", express.static(path.join(__dirname, "node_modules")))
