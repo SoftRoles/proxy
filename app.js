@@ -15,7 +15,6 @@ app.use('/mongodb', proxy({ target: 'http://127.0.0.1:3005', changeOrigin: true 
 app.use('/login', proxy({ target: 'http://127.0.0.1:3007', changeOrigin: true }));
 app.use('/logout', proxy({ target: 'http://127.0.0.1:3007', changeOrigin: true }));
 app.use('/user', proxy({ target: 'http://127.0.0.1:3007', changeOrigin: true }));
-app.use('/user', proxy({ target: 'http://127.0.0.1:3007', changeOrigin: true }));
 app.use('/serialport', proxy({ target: 'http://127.0.0.1:3008', changeOrigin: true }));
 if(process.platform == "win32"){
 	app.use("/", express.static(path.join(os.homedir(), "desktop/Sayfalar/9000-antenio")))
