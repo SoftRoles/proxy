@@ -1,9 +1,11 @@
+let user = {}
 {
   let request = new XMLHttpRequest()
   request.open("GET", "/user", true)
   request.onload = function () {
-    let user = JSON.parse(request.responseText)
+    user = JSON.parse(request.responseText)
     if (!user.username) {
+      user = { username: "guest" }
       let request = new XMLHttpRequest()
       request.open("POST", "/login", true)
       request.setRequestHeader("Content-Type", "application/json; charset=UTF-8")
@@ -11,7 +13,7 @@
       request.send(JSON.stringify(json))
     }
   }
-  request.onerro = () => {
+  request.onerror = () => {
     console.log(request.status)
   }
   request.send()
