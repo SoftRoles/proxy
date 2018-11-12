@@ -16,7 +16,7 @@ Array.prototype.shuffle = function () {
 }
 
 Array.prototype.appendToDom = function (dom) {
-  this.forEach((item) => {
+  this.forEach(function(item){
     var el = document.createElement(item.type)
     if (item.class) el.className = item.class
     if (item.attrs) {
