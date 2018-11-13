@@ -13,7 +13,7 @@ let user = {}
       request.send(JSON.stringify(json))
     }
   }
-  request.onerror = () => {
+  request.onerror = function() {
     console.log(request.status)
   }
   request.send()
