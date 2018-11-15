@@ -28,9 +28,6 @@ else{
 	app.use("/serial", express.static(path.join(os.homedir(), "/Uygulamalar/8002-serial")))
 }
 
-app.use("/lib", express.static(path.join(__dirname, "node_modules")))
-app.use("/lib/custom", express.static(path.join(__dirname, "js")))
-
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cors())
