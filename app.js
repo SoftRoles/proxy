@@ -15,6 +15,7 @@ app.use('/mongodb', proxy({ target: 'http://127.0.0.1:3005', changeOrigin: true 
 app.use('/login', proxy({ target: 'http://127.0.0.1:3007', changeOrigin: true }));
 app.use('/logout', proxy({ target: 'http://127.0.0.1:3007', changeOrigin: true }));
 app.use('/user', proxy({ target: 'http://127.0.0.1:3007', changeOrigin: true }));
+app.use('/403', proxy({ target: 'http://127.0.0.1:3007', changeOrigin: true }));
 app.use('/serialport', proxy({ target: 'http://127.0.0.1:3008', changeOrigin: true }));
 app.use('/localcdn', proxy({ target: 'http://127.0.0.1:3009', changeOrigin: true }));
 if(process.platform == "win32"){
