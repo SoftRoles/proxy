@@ -1,14 +1,8 @@
 var express = require('express')
-var bodyParser = require("body-parser")
-var cors = require("cors")
-
-var fs = require('fs');
-var os = require('os');
-var path = require('path');
-
-var proxy = require('http-proxy-middleware');
-
 const app = express();
+
+// proxies
+var proxy = require('http-proxy-middleware');
 const proxyDefault = {changeOrigin: true, onProxyReq: (proxyReq, req) => {
   if (req.user) proxyReq.setHeader("Authorization", "Bearer " + req.user.token);
 }}
@@ -21,6 +15,10 @@ app.use('/user', proxy({ target: 'http://127.0.0.1:3007', changeOrigin: true }))
 app.use('/403', proxy({ target: 'http://127.0.0.1:3007', changeOrigin: true }));
 app.use('/serialport', proxy(Object.assign({target: 'http://127.0.0.1:3008'}, proxyDefault)))
 app.use('/localcdn', proxy({ target: 'http://127.0.0.1:3009', changeOrigin: true }));
+
+// platform specific proxies
+var os = require('os');
+var path = require('path');
 if (process.platform == "win32") {
   app.use("/", express.static(path.join(os.homedir(), "desktop/Sayfalar/9000-antenio")))
   app.use("/favorites", express.static(path.join(os.homedir(), "desktop/Uygulamalar/8000-favorites")))
@@ -32,6 +30,9 @@ else {
   app.use("/serial", express.static(path.join(os.homedir(), "/Uygulamalar/8002-serial")))
 }
 
+// default middlewares
+var bodyParser = require("body-parser")
+var cors = require("cors")
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cors())
