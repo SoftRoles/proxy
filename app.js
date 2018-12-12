@@ -16,6 +16,8 @@ app.use('/403', proxy({ target: 'http://127.0.0.1:3007', changeOrigin: true }));
 app.use('/serialport', proxy(Object.assign({target: 'http://127.0.0.1:3008'}, proxyDefault)))
 app.use('/localcdn', proxy({ target: 'http://127.0.0.1:3009', changeOrigin: true }));
 
+app.use('/socket/serialport', proxy({target: 'http://127.0.0.1:3008', pathRewrite:{"^/socket/serialport":"/socket.io"}, ws:true}))
+
 // platform specific proxies
 var os = require('os');
 var path = require('path');
