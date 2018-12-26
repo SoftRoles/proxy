@@ -31,6 +31,7 @@ else {
   app.use("/", express.static(path.join(os.homedir(), "/Sayfalar/9000-antenio")))
   app.use("/favorites", express.static(path.join(os.homedir(), "/Uygulamalar/8000-favorites")))
   app.use("/serial", express.static(path.join(os.homedir(), "/Uygulamalar/8002-serial")))
+  app.use("/local", express.static(path.join(os.homedir(), "/local")))
 }
 
 // default middlewares
