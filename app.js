@@ -22,7 +22,7 @@ app.use('/socket/serialport', proxy({target: 'http://127.0.0.1:3008', pathRewrit
 var os = require('os');
 var path = require('path');
 if (process.platform == "win32") {
-  app.use("/", express.static(path.join(os.homedir(), "desktop/Sayfalar/9000-antenio")))
+  app.use("/", express.static(path.join(os.homedir(), "pages/9000-antenio")))
   app.use("/favorites", express.static(path.join(os.homedir(), "desktop/Uygulamalar/8000-favorites")))
   app.use("/serial", express.static(path.join(os.homedir(), "desktop/Uygulamalar/8002-serial")))
   app.use("/local", express.static(path.join(os.homedir(), "desktop/Yerel")))
