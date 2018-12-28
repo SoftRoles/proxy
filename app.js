@@ -18,6 +18,7 @@ app.use('/socket/serialport', proxy({target: 'http://127.0.0.1:3008', pathRewrit
 var os = require('os');
 var path = require('path');
 app.use("/", express.static(path.join(os.homedir(), "pages/9000-antenio")))
+app.use("/filebrowser", express.static(path.join(os.homedir(), "pages/9001-filebrowser")))
 app.use("/favorites", express.static(path.join(os.homedir(), "apps/8000-favorites")))
 app.use("/serial", express.static(path.join(os.homedir(), "apps/8002-serial")))
 app.use("/local", express.static(path.join(os.homedir(), "local")))
