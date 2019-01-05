@@ -4,6 +4,8 @@
   "description": "",
   "main": "app.js",
   "dependencies": {
+    "argparse": "^1.0.10",
+    "find-free-port": "^2.0.0",
     "node-async-loop": "^1.2.2"
   },
   "devDependencies": {},
