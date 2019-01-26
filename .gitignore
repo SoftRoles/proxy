@@ -1,6 +1,7 @@
 package-lock.json
 sslcert/
 node_modules
+service.json
 
 # Logs
 logs
