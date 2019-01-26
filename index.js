@@ -21,8 +21,13 @@ app.use(require("cors")())
 //-------------------------------------
 const services = JSON.parse(fs.readFileSync('services.json'))
 services.forEach(service => {
-  app.use(`/${service.name}`, proxy({ target: `http://127.0.0.1/authorize/${service.name}`, changeOrigin: true }));
-  app.use(`/authorized/${service.name}`, proxy({ target: `http://127.0.0.1:${service.port}`, pathRewrite: { '^/authorized': '' }, changeOrigin: true }));
+  if (service.name !== 'authorization') {
+    app.use(`/${service.name}`, proxy({ target: `http://127.0.0.1:3007/authorize/service`, changeOrigin: true }));
+    app.use(`/authorized/${service.name}`, proxy({ target: `http://127.0.0.1:${service.port}`, pathRewrite: { '^/authorized': '' }, changeOrigin: true }));
+  }
+  else {
+    app.use(`/${service.name}`, proxy({ target: `http://127.0.0.1:${service.port}`, changeOrigin: true }));
+  }
 })
 
 //=============================================================================
