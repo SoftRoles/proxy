@@ -4,6 +4,7 @@
 const express = require('express');
 const proxy = require('http-proxy-middleware');
 const fs = require('fs');
+const path = require('path');
 
 //=============================================================================
 // http server
@@ -30,6 +31,10 @@ services.forEach(service => {
   }
 })
 
+const pages = JSON.parse(fs.readFileSync('pages.json'))
+pages.forEach(page => {
+  app.use(`/${page.name}`, express.static(path.normalize(`../../Pages/${page.name}`)))
+})
 //=============================================================================
 // start service
 //=============================================================================
