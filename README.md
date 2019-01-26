@@ -1,5 +1,5 @@
 - [@SoftRoles : proxy](#softroles--proxy)
-  - [Dependecies](#dependecies)
+  - [Dependencies](#dependencies)
   - [Usage](#usage)
   - [Credits](#credits)
   - [License](#license)
@@ -8,7 +8,7 @@
 
 Proxy service for other SoftRoles services
 
-## Dependecies
+## Dependencies
 
 No dependency
 

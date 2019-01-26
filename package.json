@@ -9,7 +9,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@softroles/user-env-variable": "^1.2.2",
     "cors": "^2.8.5",
     "express": "^4.16.4",
     "http-proxy-middleware": "^0.18.0",
