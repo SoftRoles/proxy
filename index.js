@@ -3,6 +3,7 @@
 //=============================================================================
 const express = require('express');
 const proxy = require('http-proxy-middleware');
+const fs = require('fs');
 
 //=============================================================================
 // http server
@@ -18,10 +19,9 @@ app.use(require("cors")())
 //-------------------------------------
 // proxy middlewares
 //-------------------------------------
-const services = [
-  { name: 'database', port: '3005' },
-  { name: 'authorization', port: '3007' }
-]
+
+const services = JSON.parse(fs.readFileSync('services.json'))
+
 services.forEach(service => {
   app.use(`/${service.name}`, proxy({ target: `/authorize/${service.name}`, changeOrigin: true }));
   app.use(`/authorized/${service.name}`, proxy({ target: `http://127.0.0.1:${service.port}`, pathRewrite: { '^/authorized': '' }, changeOrigin: true }));

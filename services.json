@@ -1,0 +1,10 @@
+  [
+    {
+      "name": "database",
+      "port": 3005
+    },
+    {
+      "name": "authorization",
+      "port": 3007
+    }
+  ]
