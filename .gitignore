@@ -3,6 +3,7 @@ sslcert/
 node_modules
 services.json
 pages.json
+websockets.json
 
 # Logs
 logs

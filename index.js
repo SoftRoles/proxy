@@ -33,11 +33,24 @@ services.forEach(service => {
 
 const pages = JSON.parse(fs.readFileSync('pages.json'))
 pages.forEach(page => {
+  console.log(`Static page serving: from ${page.name} at ${page.path}`)
   app.use(`/${page.path}`, express.static(path.normalize(`../../Pages/${page.name}`)))
 })
+
+
+let websockets = JSON.parse(fs.readFileSync('websockets.json'))
+websockets.forEach(ws => {
+  ws.proxy = proxy(`ws://127.0.0.1:${ws.port}`)
+  console.log(`Websocket proxying: from ${ws.name} to ws://127.0.0.1:${ws.port}`)
+  app.use(`/${ws.name}`, ws.proxy)
+})
+
 //=============================================================================
 // start service
 //=============================================================================
-app.listen(80, function () {
+let server = app.listen(80, function () {
   console.log("Service running on http://127.0.0.1:80")
+})
+websockets.forEach(ws => {
+  server.on('upgrade', ws.proxy.upgrade)
 })
