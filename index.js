@@ -20,20 +20,20 @@ app.use(require("cors")())
 //-------------------------------------
 // proxy middlewares
 //-------------------------------------
-const services = JSON.parse(fs.readFileSync('services.json'))
+const services = JSON.parse(fs.readFileSync(path.join(__dirname,'services.json')))
 services.forEach(service => {
   console.log(`Seervice proxying: from ${service.name} to ws://127.0.0.1:${service.port}`)
   app.use(`/${service.name}`, proxy({ target: `http://127.0.0.1:${service.port}`, changeOrigin: true }));
 })
 
-const pages = JSON.parse(fs.readFileSync('pages.json'))
+const pages = JSON.parse(fs.readFileSync(path.join(__dirname,'pages.json')))
 pages.forEach(page => {
   console.log(`Static page serving: from ${page.name} at ${page.path}`)
   app.use(`/${page.path}`, express.static(path.normalize(`../../Pages/${page.name}`)))
 })
 
 
-let websockets = JSON.parse(fs.readFileSync('websockets.json'))
+let websockets = JSON.parse(fs.readFileSync(path.join(__dirname,'websockets.json')))
 websockets.forEach(ws => {
   ws.proxy = proxy(`ws://127.0.0.1:${ws.port}`)
   console.log(`Websocket proxying: from ${ws.name} to ws://127.0.0.1:${ws.port}`)
