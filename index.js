@@ -22,7 +22,7 @@ app.use(require("cors")())
 //-------------------------------------
 const services = JSON.parse(fs.readFileSync(path.join(__dirname,'services.json')))
 services.forEach(service => {
-  console.log(`Seervice proxying: from ${service.name} to ws://127.0.0.1:${service.port}`)
+  console.log(`Service proxying: from ${service.name} to http://127.0.0.1:${service.port}`)
   app.use(`/${service.name}`, proxy({ target: `http://127.0.0.1:${service.port}`, changeOrigin: true }));
 })
 
