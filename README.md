@@ -1,9 +1,9 @@
 - [proxy](#proxy)
   - [Platform](#platform)
-  - [Requirements](#requirements)
-  - [Command Line Arguments](#command-line-arguments)
+  - [Dependency](#dependency)
   - [Configuration Files](#configuration-files)
   - [Usage](#usage)
+  - [Command Line Arguments](#command-line-arguments)
   - [Credits](#credits)
   - [License](#license)
 
@@ -18,25 +18,23 @@ Code is tested on following platforms:
  - **Linux**: Ubuntu 18.04 LTS x64
  - **Windows**: Win7, Win10
 
-## Requirements
-
 Service code is developed and tested within environment that has:
 
- - **Node.js**: v.10.15
+ - **[Node.js: v.10.x](https://nodejs.org/dist/latest-v10.x/)**
 
-## Command Line Arguments
-
-No command line arguments.
+## Dependency
+ 
+ This service is standalone, does not depend any other *SoftRoles* service.
 
 ## Configuration Files
 
-Files below are needed to run services.
+Files below are needed in same folder in order to run service.
 
 | File              | Type | Sample                               |
 | :---------------- | :--- | :----------------------------------- |
-| *services.json*   | json | `{"name": "database", "port": 3005}` |
-| *pages.json*      | json | `{"name": "login", "path": "login"}` |
-| *websockets.json* | json | `{"name": "stats", "port": 3010}`    |
+| *services.json*   | json | `[{"name": "database", "port": 3005}, ...]` |
+| *pages.json*      | json | `[{"name": "login", "path": "login"}, ...]` |
+| *websockets.json* | json | `[{"name": "stats", "port": 3010}, ...]`    |
 
 
 ## Usage
@@ -57,11 +55,17 @@ module.exports = {
     restart_delay: 10000,
     max_restarts: 6,
     max_memory_restart: '1G'
+  }, {
+    ...
   }]
 }
 ```
 
 `$ pm2 start ecosystem.config.js`
+
+## Command Line Arguments
+
+No command line arguments.
 
 ## Credits
 
