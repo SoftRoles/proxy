@@ -32,7 +32,7 @@ mongoClient.connect(mongodbUrl, { poolSize: 10, useNewUrlParser: true }, functio
     assert.equal(null,err)
     docs.forEach(ws => {
       console.log(`Websocket proxying: from ${ws.name} to ws://127.0.0.1:${ws.port}`)
-      app.use(`/${ws.name}`, ws.proxy)
+      app.use(`/${ws.name}`, proxy(`ws://127.0.0.1:${ws.port}`))
     })
   })
 })
@@ -60,7 +60,7 @@ mongoClient.connect(mongodbUrl, { poolSize: 10, useNewUrlParser: true }, functio
   client.db('softroles').collection('websockets').find({}).toArray((err,docs)=>{
     assert.equal(null,err)
     docs.forEach(ws => {
-      ws.proxy = server.on('upgrade', proxy(`ws://127.0.0.1:${ws.port}`).upgrade)
+      server.on('upgrade', proxy(`ws://127.0.0.1:${ws.port}`).upgrade)
     })
   })
 })
