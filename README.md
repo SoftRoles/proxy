@@ -1,4 +1,4 @@
-- [proxy](#proxy)
+ [proxy](#proxy)
   - [Platform](#platform)
   - [Dependency](#dependency)
   - [Configuration Files](#configuration-files)
@@ -26,9 +26,16 @@ Service code is developed and tested within environment that has:
  
  This service is standalone, does not depend any other *SoftRoles* service.
 
-## Configuration Files
+## Proxy Inputs
 
-Files below are needed in same folder in order to run service.
+Proxy inputs are taken from MongoDB database. In order to register service/page/websocket following commands can be used in bash to insert.
+
+```
+mongo softroles --eval "db.services.insertOne({name:'database', port:3005})" # for services
+mongo softroles --eval "db.pages.insertOne({name:'login', path:'login'})" # for pages
+mongo softroles --eval "db.websockets.insertOne({name:'system', port:3010})" # for websockets
+```
+
 
 | File              | Type | Sample                               |
 | :---------------- | :--- | :----------------------------------- |
