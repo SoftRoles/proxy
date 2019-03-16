@@ -8,6 +8,7 @@ const path = require('path');
 const assert = require('assert')
 const mongoClient = require("mongodb").MongoClient
 const mongodbUrl = "mongodb://127.0.0.1:27017"
+const showdown = require('showdown')
 
 //-------------------------------------
 // proxy middlewares
@@ -47,6 +48,18 @@ const app = express();
 //-------------------------------------
 app.use(require("morgan")('tiny'))
 app.use(require("cors")())
+
+//-------------------------------------
+// docs
+//-------------------------------------
+showdown.setFlavor('github')
+const markdown = new showdown.Converter()
+app.get('/proxy/readme', function(req, res){
+  fs.readFile('README.md', (err, data)=>{
+    const html = markdown.makeHtml(String(data));
+    res.send(html)
+  })
+})
 
 //=============================================================================
 // start service
