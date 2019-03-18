@@ -1,7 +1,8 @@
  [proxy](#proxy)
   - [Platform](#platform)
   - [Dependency](#dependency)
-  - [Install & Start](#install--start)
+  - [Install](#install)
+  - [Start](#start)
   - [Proxy Inputs](#proxy-inputs)
   - [Usage](#usage)
   - [Command Line Arguments](#command-line-arguments)
@@ -28,26 +29,17 @@ Service code is developed and tested within environment that has:
  
  This service is standalone, does not depend any other *SoftRoles* service.
 
-## Install & Start
+## Install
 
 ```
 $ npm install
+```
+
+## Start
+
+```
 $ node index.js
 ```
-
-## Proxy Inputs
-
-Proxy inputs are taken from MongoDB database. In order to register service/page/websocket following commands can be used in bash to insert.
-
-```bash
-mongo softroles --eval "db.services.insertOne({name:'database', port:3005})" # for services
-mongo softroles --eval "db.pages.insertOne({name:'login', path:'login'})" # for pages
-mongo softroles --eval "db.websockets.insertOne({name:'system', port:3010})" # for websockets
-```
-
-## Usage
-
-`$ node index.js`
 
 or with pm2 *ecosystem.config.js* file
 
@@ -70,6 +62,16 @@ module.exports = {
 ```
 
 `$ pm2 start ecosystem.config.js`
+
+## Proxy Inputs
+
+Proxy inputs are taken from MongoDB database. In order to register service/page/websocket following commands can be used in bash to insert.
+
+```bash
+mongo softroles --eval "db.services.insertOne({name:'database', port:3005})" # for services
+mongo softroles --eval "db.pages.insertOne({name:'login', path:'login'})" # for pages
+mongo softroles --eval "db.websockets.insertOne({name:'system', port:3010})" # for websockets
+```
 
 ## Command Line Arguments
 
