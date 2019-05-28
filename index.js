@@ -26,7 +26,7 @@ mongoClient.connect(mongodbUrl, { poolSize: 10, useNewUrlParser: true }, functio
     assert.equal(null,err)
     docs.forEach(page => {
       console.log(`Static page serving: from ${page.name} at ${page.path}`)
-      app.use(`/${page.path}`, express.static(path.normalize(`../../Pages/${page.name}`)))
+      app.use(`/${page.path}`, express.static(path.normalize(`../../pages/${page.name}`)))
     })
   })
   client.db('softroles').collection('websockets').find({}).toArray((err,docs)=>{
