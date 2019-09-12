@@ -43,6 +43,8 @@ mongoClient.connect(mongodbUrl, { poolSize: 10, useNewUrlParser: true }, functio
 //=============================================================================
 const app = express();
 
+app.use("/apps/propagation", express.static(path.normalize("/root/softroles/jsonshell/propagation/propagation-ui")))
+app.use("/bash", proxy({ target: "http://127.0.0.1:3010", changeOrigin: true }));
 //-------------------------------------
 // common middlewares
 //-------------------------------------
