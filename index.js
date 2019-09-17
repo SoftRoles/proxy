@@ -9,6 +9,7 @@ const assert = require('assert')
 const mongoClient = require("mongodb").MongoClient
 const mongodbUrl = "mongodb://127.0.0.1:27017"
 const showdown = require('showdown')
+const { spawn } = require('child_process');
 
 //-------------------------------------
 // proxy middlewares
@@ -45,11 +46,53 @@ const app = express();
 
 app.use("/apps/propagation", express.static(path.normalize("/root/softroles/jsonshell/propagation/propagation-ui")))
 app.use("/bash", proxy({ target: "http://127.0.0.1:3010", changeOrigin: true }));
+
 //-------------------------------------
 // common middlewares
 //-------------------------------------
-app.use(require("morgan")('tiny'))
+app.use(require('morgan')('tiny'));
+app.use(require('body-parser').json())
+app.use(require('body-parser').urlencoded({extended: true}));
 app.use(require("cors")())
+
+//=============================================================================
+// api v1
+//=============================================================================
+app.get('/jsonshell/:module/:func', function(req, res) {
+  //console.log(req.params)
+  //console.log(req.query)
+  //console.log(process.env.PATH)
+  let args = [req.params.func]
+  let response = { output: "", error: "", exit: null }
+  for (key of Object.keys(req.query)) {
+    args.push(`--${key}=${req.query[key]}`)
+  }
+  try{
+    //console.log(process.env)
+    var func = spawn(req.params.module, args);
+    func.on("error", err => {
+      response.error += "function error"
+      console.log(err)
+      //throw err;
+    })
+  }
+  catch (e) {
+    response.error += "spawn error"
+    res.send(response)
+  }
+
+  //console.log(args)
+  func.stdout.on('data', data => {
+    response.output += `${data}`
+  })
+  func.stderr.on('data', data => {
+    response.error += `${data}`
+  })
+  func.on('close', code => {
+    response.exit = code
+    res.send(response)
+  })
+});
 
 //-------------------------------------
 // docs
